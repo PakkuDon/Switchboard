@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace Switchboard.Models
 {
@@ -16,5 +17,8 @@ namespace Switchboard.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        // Navigation properties
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }
