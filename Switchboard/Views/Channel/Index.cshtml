@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Switchboard.Models.Channel>
+
+<ul id="channels">
+    @foreach (var item in Model)
+    {
+        <li>@Html.ActionLink(item.Name, "View", "Channel")</li>
+    }
+</ul>

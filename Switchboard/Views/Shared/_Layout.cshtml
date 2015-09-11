@@ -30,6 +30,7 @@
     <div class="container">
         <div class="sidebar">
             <h4>Channels</h4>
+            @{Html.RenderAction("Index", "Channel");}
         </div>
         <div class="body-content">
             @RenderBody()
