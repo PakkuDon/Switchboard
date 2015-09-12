@@ -9,9 +9,12 @@ namespace Switchboard.Models
     public class Post
     {
         public int ID { get; set; }
-        [MinLength(30)]
+        [MinLength(10)]
         public string Content { get; set; }
         public DateTime DatePosted { get; set; }
+
+        // Foreign keys
+        public int ChannelID { get; set; }
 
         // Navigation properties
         public virtual Channel Channel { get; set; }
