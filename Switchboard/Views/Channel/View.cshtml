@@ -1,0 +1,34 @@
+﻿@model Switchboard.Models.Channel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div id="channel-view">
+    <div id="channel-header">
+        <h4>Viewing: @Html.DisplayFor(model => model.Name)</h4>
+        <dl class="dl-vertical">
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+    </div>
+    <div class="posts">
+        @foreach (var post in Model.Posts)
+        {
+            <hr />
+            <div class="post">
+                <div class="post-header">
+                    Posted by @Html.DisplayFor(item => post.User.UserName) at @Html.DisplayFor(item => post.DatePosted)
+                </div>
+                <div class="post-content">
+                    @Html.DisplayFor(item => post.Content)
+                </div>
+            </div>
+        }
+    </div>
+</div>
