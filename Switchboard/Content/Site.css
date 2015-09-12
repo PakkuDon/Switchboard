@@ -33,12 +33,12 @@ textarea {
     padding: 5px;
 }
 
-#channels {
+#channel-list {
     list-style-type: none;
     padding-left: 10px;
 }
 
-#channels li a {
+#channel-list li a {
     display: inline-block;
     font-weight: bold;
     width: 100%;
@@ -46,11 +46,14 @@ textarea {
     padding: 5px;
 }
 
-#channels li a:hover {
+#channel-list li a:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
 .body-content {
     position: absolute;
     left: 250px;
+    top: 51px;
+    right: 0;
+    bottom: 0;
 }
