@@ -10,6 +10,7 @@ namespace Switchboard.Models
     {
         public int ID { get; set; }
         [MinLength(10)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime DatePosted { get; set; }
 
@@ -18,7 +19,6 @@ namespace Switchboard.Models
 
         // Navigation properties
         public virtual Channel Channel { get; set; }
-        [Required]
         public virtual ApplicationUser User { get; set; }
     }
 }
