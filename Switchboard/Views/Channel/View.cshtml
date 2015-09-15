@@ -31,4 +31,7 @@
             </div>
         }
     </div>
+    <div class="post-form">
+        @{Html.RenderPartial("~/Views/Post/Add.cshtml", new Switchboard.Models.Post { ChannelID = Model.ID });}
+    </div>
 </div>
