@@ -32,9 +32,9 @@ namespace Switchboard.Migrations
 
             var users = new List<ApplicationUser>
             {
-                new ApplicationUser { UserName = "Administrator" },
-                new ApplicationUser { UserName = "Moderator" },
-                new ApplicationUser { UserName = "BobbyTables" }
+                new ApplicationUser { UserName = "Administrator", Email = "administrator@switchboard.com" },
+                new ApplicationUser { UserName = "Moderator", Email = "moderate@switchboard.com" },
+                new ApplicationUser { UserName = "BobbyTables", Email = "bobbytables@example.com" }
             };
 
             // Add roles and users
@@ -60,7 +60,11 @@ namespace Switchboard.Migrations
             {
                 new Channel { Name = "General", Description = "Casual chat thread." },
                 new Channel { Name = "Technology", Description = "Stuff about tech. Maybe." },
-                new Channel { Name = "Programming", Description = "C# Master Race." }
+                new Channel { Name = "Programming", Description = "C# Master Race." },
+                new Channel { Name = "Work", Description = "" },
+                new Channel { Name = "TV", Description = "Discussion related TV shows and channels." },
+                new Channel { Name = "Lifestyle", Description = "Food, health, etc." },
+                new Channel { Name = "News", Description = "Current events, either local, national or overseas." }
             };
 
             var posts = new List<Post>
