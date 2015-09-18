@@ -9,6 +9,7 @@ namespace Switchboard.Models
     public class Post
     {
         public int ID { get; set; }
+        [Required]
         [MinLength(10)]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }

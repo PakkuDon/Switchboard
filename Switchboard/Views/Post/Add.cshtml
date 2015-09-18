@@ -7,6 +7,8 @@
     
     <div class="form-horizontal">
         <hr />
+        <ul class="validation-summary-errors">
+        </ul>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -18,7 +20,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <button id="submit-reply" type="submit" class="btn btn-default">Reply</button>
             </div>
         </div>
     </div>
@@ -28,16 +30,22 @@
     $(document).ready(function (e) {
         $('#post-form').submit(function (e) {
             e.preventDefault();
+            var $validationSummary = $('.validation-summary-errors');
+            $validationSummary.empty();
             
             // TODO: Show loading icon on submit
-            var form = $('#post-form');
-            $.post(form.attr('action'), form.serialize(), function (data, status) {
+            var $form = $('#post-form');
+            $('#submit-reply').append('<div class="ajax-loader"></div>');
+            $.post($form.attr('action'), $form.serialize(), function (data, status) {
+                $('#submit-reply .ajax-loader').remove();
                 if (data.success === true) {
                     window.location.reload();
                 }
+                // Display errors
                 else {
-                    // Report errors
-                    console.log(data.error);
+                    for (var i = 0; i < data.errors.length; i++) {
+                        $validationSummary.append('<ul>' + data.errors[i] + '</ul>');
+                    }
                 }
             });
         });

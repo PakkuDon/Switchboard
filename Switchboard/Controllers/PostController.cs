@@ -14,13 +14,15 @@ namespace Switchboard.Controllers
         private BoardDbContext db = BoardDbContext.Create();
 
         // POST: Post/Add?channelID=5
+        [Authorize]
         [HttpPost]
         public JsonResult Add([Bind(Include = "Content,ChannelID")] Post post)
         {
+            // Bind new post to active user and set timestamp 
+            // if post passes validation
             try
             {
-                // TODO: Use current user
-                post.User = db.Users.Where(u => u.UserName == "BobbyTables").SingleOrDefault();
+                post.User = db.Users.Where(u => u.UserName == User.Identity.Name).SingleOrDefault();
                 if (ModelState.IsValid)
                 {
                     post.DatePosted = DateTime.Now;
@@ -29,14 +31,18 @@ namespace Switchboard.Controllers
                     return Json(new { success = true });
                 }
             }
-            // TODO: Report errors
+            // Report errors
             catch (DataException e)
             {
-                ModelState.AddModelError("", 
+                ModelState.AddModelError("",
                     "Error occurred while saving changes. Please try again.");
-                return Json(new { success = false, error = e.Message});
+                return Json(new { success = false, errors = new List<string> { e.Message } });
             }
-            return Json(new { success = false });
+            var errors = ModelState
+                .Where(e => e.Value.Errors.Count > 0)
+                .SelectMany(e => e.Value.Errors
+                .Select(x => x.ErrorMessage));
+            return Json(new { success = false, errors = errors });
         }
     }
 }

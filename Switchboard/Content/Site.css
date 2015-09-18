@@ -57,3 +57,11 @@ textarea {
     right: 0;
     bottom: 0;
 }
+
+.ajax-loader {
+    width: 16px;
+    height: 16px;
+    background-image: url("ajax-loader.gif");
+    vertical-align: middle;
+    display: inline-block;
+}
