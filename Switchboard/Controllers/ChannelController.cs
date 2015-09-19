@@ -13,10 +13,20 @@ namespace Switchboard.Controllers
         private BoardDbContext db = BoardDbContext.Create();
 
         // GET: Channel
-        [ChildActionOnly]
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm)
         {
-            return PartialView(db.Channels.OrderBy(c => c.Name).ToList());
+            var channels = from c in db.Channels
+                           select c;
+
+            // If search term provided, filter results
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                channels = channels.Where(
+                    c => c.Name.ToLower().Contains(searchTerm.ToLower())
+                    || c.Description.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            return PartialView(channels.OrderBy(c => c.Name).ToList());
         }
 
         // GET: Channel/5
