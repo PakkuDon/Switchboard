@@ -1,0 +1,12 @@
+﻿@model Switchboard.Models.Post
+
+<div class="post">
+    <div class="post-header">
+        Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span> 
+        at @Html.ActionLink(Model.DatePosted.ToString(), "View", "Channel",
+                null, null, Model.ID.ToString(), new { id = Model.ChannelID }, new { name = Model.ID.ToString() })
+    </div>
+    <div class="post-content">
+        @Html.DisplayFor(model => model.Content)
+    </div>
+</div>

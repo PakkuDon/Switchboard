@@ -21,14 +21,7 @@
         @foreach (var post in Model.Posts)
         {
             <hr />
-            <div class="post">
-                <div class="post-header">
-                    Posted by @Html.DisplayFor(item => post.User.UserName) at @Html.DisplayFor(item => post.DatePosted)
-                </div>
-                <div class="post-content">
-                    @Html.DisplayFor(item => post.Content)
-                </div>
-            </div>
+            Html.RenderPartial("~/Views/Post/View.cshtml", post);
         }
     </div>
     <div class="post-form">
