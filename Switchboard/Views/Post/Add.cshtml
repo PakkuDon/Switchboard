@@ -33,15 +33,19 @@
             var $validationSummary = $('.validation-summary-errors');
             $validationSummary.empty();
             
-            // TODO: Show loading icon on submit
-            var $form = $('#post-form');
+            // Display loading icon
             $('#submit-reply').append('<div class="ajax-loader"></div>');
+
+            // Submit form data via AJAX request
+            var $form = $('#post-form');
             $.post($form.attr('action'), $form.serialize(), function (data, status) {
                 $('#submit-reply .ajax-loader').remove();
+                // If post made successfully, empty reply form
+                // Code for retrieving and displaying new posts defined in Channel/View
                 if (data.success === true) {
-                    window.location.reload();
+                    $('#Content').val('');
                 }
-                // Display errors
+                // On error, display validation messages
                 else {
                     for (var i = 0; i < data.errors.length; i++) {
                         $validationSummary.append('<ul>' + data.errors[i] + '</ul>');

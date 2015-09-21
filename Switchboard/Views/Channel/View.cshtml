@@ -20,7 +20,6 @@
     <div class="posts">
         @foreach (var post in Model.Posts)
         {
-            <hr />
             Html.RenderPartial("~/Views/Post/View.cshtml", post);
         }
     </div>
@@ -28,3 +27,25 @@
         @{Html.RenderPartial("~/Views/Post/Add.cshtml", new Switchboard.Models.Post { ChannelID = Model.ID });}
     </div>
 </div>
+
+@section Scripts {
+    <!-- Reference SignalR scripts -->
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        // Connect to hub and wait for updates
+        $(function () {
+            var hub = $.connection.channelHub;
+            // Register client-side callback
+            hub.client.displayNewPost = function (postID) {
+                console.log(postID);
+                $.get("/Post/View", { id : postID }, function(data, status) {
+                    $('.posts').append($(data));
+                });
+            }
+
+            // Start connection
+            $.connection.hub.start().done(function () { });
+        });
+    </script>
+}

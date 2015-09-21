@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Switchboard.Models;
 using System.Net;
 using System.Data;
+using Microsoft.AspNet.SignalR;
 
 namespace Switchboard.Controllers
 {
@@ -14,7 +15,7 @@ namespace Switchboard.Controllers
         private BoardDbContext db = BoardDbContext.Create();
 
         // POST: Post/Add?channelID=5
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         [HttpPost]
         public JsonResult Add([Bind(Include = "Content,ChannelID")] Post post)
         {
@@ -25,9 +26,15 @@ namespace Switchboard.Controllers
                 post.User = db.Users.Where(u => u.UserName == User.Identity.Name).SingleOrDefault();
                 if (ModelState.IsValid)
                 {
+
                     post.DatePosted = DateTime.Now;
                     db.Posts.Add(post);
                     db.SaveChanges();
+
+                    // Update all active clients
+                    var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
+                    context.Clients.All.displayNewPost(post.ID);
+
                     return Json(new { success = true });
                 }
             }
@@ -43,6 +50,13 @@ namespace Switchboard.Controllers
                 .SelectMany(e => e.Value.Errors
                 .Select(x => x.ErrorMessage));
             return Json(new { success = false, errors = errors });
+        }
+
+        public PartialViewResult View(int id)
+        {
+            // TODO: Validation
+            var post = db.Posts.Find(id);
+            return PartialView("~/Views/Post/View.cshtml", post);
         }
     }
 }

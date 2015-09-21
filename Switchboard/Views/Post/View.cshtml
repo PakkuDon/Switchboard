@@ -1,6 +1,7 @@
 ﻿@model Switchboard.Models.Post
 
 <div class="post">
+    <hr />
     <div class="post-header">
         Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span> 
         at @Html.ActionLink(Model.DatePosted.ToString(), "View", "Channel",
