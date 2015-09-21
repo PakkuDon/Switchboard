@@ -2,4 +2,10 @@
 
 Discussion board application that may or may not be based off of [Slack.](https://slack.com)
 
-Written in C#. Uses ASP.NET MVC 5 and Entity Framework 6. 
+## Tools used
+
+- ASP.NET MVC 5
+- Entity Framework 6
+- jQuery 1.1x
+- Bootstrap 3.0
+- SignalR 2.2
