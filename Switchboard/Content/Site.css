@@ -3,10 +3,29 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
+    /* Set padding to keep content from hitting the edges */
     padding-left: 15px;
     padding-right: 15px;
+    /* Fill remainder of page width and height */
+    position: absolute;
+    left: 250px;
+    top: 51px;
+    right: 0;
+    bottom: 0;
+    /* Display children in column format */
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.content {
+    flex: 1 1 auto;
+    position: relative;
+}
+
+footer {
+    flex: 0 1 auto;
+    border-top: 1px solid #EEE; 
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -23,6 +42,7 @@ textarea {
     max-width: 280px;
 }
 
+/* Sidebar and descendant elements */
 .sidebar {
     position: absolute;
     top: 51px;
@@ -33,6 +53,7 @@ textarea {
     padding: 5px;
 }
 
+/* Sidebar channel list */
 #channel-list {
     list-style-type: none;
     padding-left: 10px;
@@ -50,14 +71,7 @@ textarea {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.body-content {
-    position: absolute;
-    left: 250px;
-    top: 51px;
-    right: 0;
-    bottom: 0;
-}
-
+/* Loading icon */
 .ajax-loader {
     width: 16px;
     height: 16px;
@@ -66,6 +80,33 @@ textarea {
     display: inline-block;
 }
 
+/* Channel view */
+#channel-view {
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 auto;
+    /* Fill parent container */
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#channel-view #channel-header {
+    flex: 0 1 auto;
+}
+
+#channel-view .posts {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+#channel-view .post-form {
+    flex: 0 1 auto;
+}
+
+/* Individual posts */
 .post .username {
     font-weight: bold;
 }
