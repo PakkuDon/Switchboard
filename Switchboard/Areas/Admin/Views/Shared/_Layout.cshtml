@@ -6,9 +6,6 @@
     <title>@ViewBag.Title - Switchboard</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,15 +20,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="sidebar">
-            @{Html.RenderAction("Index", "Channel");}
+            @{Html.RenderAction("Actions", "Home");}
         </div>
         <div class="body-content">
             <div class="content">
@@ -42,5 +40,9 @@
             </footer>
         </div>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

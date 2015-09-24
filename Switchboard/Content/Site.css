@@ -53,13 +53,13 @@ textarea {
     padding: 5px;
 }
 
-/* Sidebar channel list */
-#channel-list {
+/* Sidebar channel / actions list */
+.sidebar ul {
     list-style-type: none;
     padding-left: 10px;
 }
 
-#channel-list li a {
+.sidebar li a {
     display: inline-block;
     font-weight: bold;
     width: 100%;
@@ -67,7 +67,7 @@ textarea {
     padding: 5px;
 }
 
-#channel-list li a:hover {
+.sidebar li a:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
 

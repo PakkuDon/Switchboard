@@ -1,35 +1,39 @@
 ﻿@model IEnumerable<Switchboard.Models.Channel>
 
-@using (Html.BeginForm("Index", "Channel", FormMethod.Get, new { id = "channel-search" }))
-{
-    @Html.TextBox("searchTerm", "", new { type = "text", placeholder = "Search channels" });
-    <input type="submit" value="&#128270;" />
-}
+<div id="channels">
+    <h4>Channels</h4>
 
-<ul id="channel-list">
-    @if (Model.Count() == 0)
+    @using (Html.BeginForm("Index", "Channel", FormMethod.Get, new { id = "channel-search" }))
     {
-        <li>No channels found</li>
+        @Html.TextBox("searchTerm", "", new { type = "text", placeholder = "Search channels" });
+        <input type="submit" value="&#128270;" />
     }
-    else
-    {
-        foreach (var item in Model)
+
+    <ul>
+        @if (Model.Count() == 0)
         {
-            <li>@Html.ActionLink(item.Name, "View", "Channel", new { id = item.ID }, null)</li>
+            <li>No channels found</li>
         }
-    }
-</ul>
+        else
+        {
+            foreach (var item in Model)
+            {
+                <li>@Html.ActionLink(item.Name, "View", "Channel", new { id = item.ID }, null)</li>
+            }
+        }
+    </ul>
 
-<script>
-    $(document).ready(function () {
-        // Filter list of channels by search term
-        $('#channel-search').submit(function (e) {
-            e.preventDefault();
+    <script>
+        $(document).ready(function () {
+            // Filter list of channels by search term
+            $('#channel-search').submit(function (e) {
+                e.preventDefault();
 
-            var form = $('#channel-search');
-            $.get(form.attr('action'), form.serialize(), function (data, status) {
-                $('#channels').html(data);
+                var form = $('#channel-search');
+                $.get(form.attr('action'), form.serialize(), function (data, status) {
+                    $('#channels').html(data);
+                });
             });
         });
-    });
-</script>
+    </script>
+</div>
