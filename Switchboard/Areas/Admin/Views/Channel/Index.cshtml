@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Switchboard.Models.Channel>
+
+@{
+    ViewBag.Title = "Admin Panel - Channels";
+}
+
+<h2>Channels</h2>
+
+<p>
+    @Html.ActionLink("Add Channel", "Create")
+</p>
+<p>
+    @using (Html.BeginForm("Index", "Channel", FormMethod.Get))
+    {
+        @Html.TextBox("searchTerm");
+        <input type="submit" value="&#128270;" />
+    }
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "View", "Channel", new { area = "", id = item.ID }, null)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

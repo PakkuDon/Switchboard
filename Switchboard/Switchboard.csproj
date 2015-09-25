@@ -228,6 +228,10 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Actions.cshtml" />
+    <Content Include="Areas\Admin\Views\Channel\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Channel\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Channel\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Channel\Delete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -283,7 +287,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Channel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
