@@ -283,6 +283,7 @@
     <Content Include="Views\Channel\View.cshtml" />
     <Content Include="Views\Post\Add.cshtml" />
     <Content Include="Views\Post\View.cshtml" />
+    <Content Include="Views\Post\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

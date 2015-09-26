@@ -3,11 +3,22 @@
 <div class="post">
     <hr />
     <div class="post-header">
-        Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span> 
+        Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span>
         at @Html.ActionLink(Model.DatePosted.ToString(), "View", "Channel",
                 null, null, Model.ID.ToString(), new { id = Model.ChannelID }, new { name = Model.ID.ToString() })
     </div>
     <div class="post-content">
         @Html.DisplayFor(model => model.Content)
     </div>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="actions">
+            @if (User.Identity.Name == Model.User.UserName || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+            }
+        </div>
+    }
 </div>

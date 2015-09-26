@@ -58,5 +58,62 @@ namespace Switchboard.Controllers
             var post = db.Posts.Find(id);
             return PartialView("~/Views/Post/View.cshtml", post);
         }
+
+        //
+        // GET: /Post/Edit/5
+        [System.Web.Mvc.Authorize]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (post.User.UserName != User.Identity.Name)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            return View(post);
+        }
+
+        //
+        // POST: /Post/Edit/5
+        [HttpPost]
+        [ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var post = db.Posts.Find(id);
+            if (post.User.UserName != User.Identity.Name)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            if (TryUpdateModel(post, new[] { "Content" }))
+            {
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("View", "Channel", new { id = post.ChannelID });
+                }
+                catch (DataException)
+                {
+                    ModelState.AddModelError("",
+                        "Unable to save changes. Try again.");
+                }
+            }
+            return View(post);
+        }
     }
 }
