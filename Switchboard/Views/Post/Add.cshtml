@@ -4,8 +4,8 @@
 {
     using (Html.BeginForm("Add", "Post", FormMethod.Post, new { id = "post-form" }))
     {
-        Html.AntiForgeryToken();
-        Html.HiddenFor(model => model.ChannelID);
+        @Html.AntiForgeryToken();
+        @Html.HiddenFor(model => model.ChannelID)
 
         <div class="form-horizontal">
             <hr />
