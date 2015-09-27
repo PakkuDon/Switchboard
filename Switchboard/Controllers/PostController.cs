@@ -26,7 +26,6 @@ namespace Switchboard.Controllers
                 post.User = db.Users.Where(u => u.UserName == User.Identity.Name).SingleOrDefault();
                 if (ModelState.IsValid)
                 {
-
                     post.DatePosted = DateTime.Now;
                     db.Posts.Add(post);
                     db.SaveChanges();
@@ -87,6 +86,7 @@ namespace Switchboard.Controllers
         [HttpPost]
         [ActionName("Edit")]
         [ValidateAntiForgeryToken]
+        [System.Web.Mvc.Authorize]
         public ActionResult EditPost(int? id)
         {
             if (id == null)
@@ -114,6 +114,62 @@ namespace Switchboard.Controllers
                 }
             }
             return View(post);
+        }
+
+        //
+        // GET: /Post/Delete/5
+        [System.Web.Mvc.Authorize]
+        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        {
+            // Throw error on invalid request
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // If redirected from a failed delete attempt, display error
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ModelState.AddModelError("",
+                    "An error occurred while trying to delete this post. "
+                    + "Please try again.");
+            }
+       
+            // Retrieve selected post
+            var post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+
+            // If user does not have permission to delete this post, return error
+            if (post.User.UserName != User.Identity.Name
+                && !User.IsInRole("Admin")
+                && !User.IsInRole("Moderator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            // Render confirmation screen for selected post
+            return View(post);
+        }
+
+        //
+        // POST: /Post/Delete/5
+        [HttpPost]
+        [System.Web.Mvc.Authorize]
+        public ActionResult Delete(int id)
+        {
+            var post = db.Posts.Find(id);
+            try
+            {
+                db.Posts.Remove(post);
+                db.SaveChanges();
+            }
+            catch (DataException)
+            {
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("View", "Channel", new { id = post.ChannelID });
         }
     }
 }

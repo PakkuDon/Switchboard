@@ -18,6 +18,9 @@
                 <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span>
                 </a>
+                <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
             }
         </div>
     }
