@@ -12,7 +12,8 @@ namespace Switchboard.Controllers
     {
         private BoardDbContext db = BoardDbContext.Create();
 
-        // GET: Channel
+        //
+        // GET: Channel/
         public ActionResult Index(string searchTerm)
         {
             var channels = from c in db.Channels
@@ -29,7 +30,8 @@ namespace Switchboard.Controllers
             return PartialView(channels.OrderBy(c => c.Name).ToList());
         }
 
-        // GET: Channel/5
+        //
+        // GET: Channel/View/5
         public ActionResult View(int? id)
         {
             if (id == null)

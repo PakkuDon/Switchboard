@@ -17,6 +17,7 @@ namespace Switchboard.Controllers
         // POST: Post/Add?channelID=5
         [System.Web.Mvc.Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Add([Bind(Include = "Content,ChannelID")] Post post)
         {
             // Bind new post to active user and set timestamp 
@@ -68,13 +69,17 @@ namespace Switchboard.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Locate associated post
             var post = db.Posts.Find(id);
             if (post == null)
             {
                 return HttpNotFound();
             }
 
-            if (post.User.UserName != User.Identity.Name)
+            // If user does not have permission to edit this post, return error
+            if (post.User.UserName != User.Identity.Name
+                && !User.IsInRole("Admin")
+                && !User.IsInRole("Moderator"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
@@ -94,8 +99,12 @@ namespace Switchboard.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Locate associated post
+            // If user does not have permission to edit this post, return error
             var post = db.Posts.Find(id);
-            if (post.User.UserName != User.Identity.Name)
+            if (post.User.UserName != User.Identity.Name
+                && !User.IsInRole("Admin")
+                && !User.IsInRole("Moderator"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
@@ -157,6 +166,7 @@ namespace Switchboard.Controllers
         // POST: /Post/Delete/5
         [HttpPost]
         [System.Web.Mvc.Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var post = db.Posts.Find(id);
@@ -170,6 +180,15 @@ namespace Switchboard.Controllers
                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
             }
             return RedirectToAction("View", "Channel", new { id = post.ChannelID });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

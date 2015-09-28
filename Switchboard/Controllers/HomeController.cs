@@ -13,6 +13,8 @@ namespace Switchboard.Controllers
             return View();
         }
 
+        //
+        // GET: /Home/About/
         public ActionResult About()
         {
             return View();
