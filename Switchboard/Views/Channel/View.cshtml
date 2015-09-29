@@ -23,9 +23,7 @@
             Html.RenderPartial("~/Views/Post/View.cshtml", post);
         }
     </div>
-    <div class="post-form">
-        @{Html.RenderPartial("~/Views/Post/Add.cshtml", new Switchboard.Models.Post { ChannelID = Model.ID });}
-    </div>
+    @{Html.RenderPartial("~/Views/Post/Add.cshtml", new Switchboard.Models.Post { ChannelID = Model.ID });}
 </div>
 
 @section Scripts {

@@ -18,10 +18,10 @@ namespace Switchboard.Controllers
         [System.Web.Mvc.Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Add([Bind(Include = "Content,ChannelID")] Post post)
+        public PartialViewResult Add([Bind(Include = "Content,ChannelID")] Post post)
         {
-            // Bind new post to active user and set timestamp 
-            // if post passes validation
+            // Bind new post to active user and 
+            // set timestamp if post passes validation
             try
             {
                 post.User = db.Users.Where(u => u.UserName == User.Identity.Name).SingleOrDefault();
@@ -35,21 +35,18 @@ namespace Switchboard.Controllers
                     var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
                     context.Clients.All.displayNewPost(post.ID);
 
-                    return Json(new { success = true });
+                    // Render new post form
+                    ModelState.Clear();
+                    return PartialView(new Post { ChannelID = post.ChannelID });
                 }
             }
             // Report errors
-            catch (DataException e)
+            catch (DataException)
             {
                 ModelState.AddModelError("",
                     "Error occurred while saving changes. Please try again.");
-                return Json(new { success = false, errors = new List<string> { e.Message } });
             }
-            var errors = ModelState
-                .Where(e => e.Value.Errors.Count > 0)
-                .SelectMany(e => e.Value.Errors
-                .Select(x => x.ErrorMessage));
-            return Json(new { success = false, errors = errors });
+            return PartialView(post);
         }
 
         public PartialViewResult View(int id)
