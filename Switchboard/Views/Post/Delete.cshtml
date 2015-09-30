@@ -1,39 +1,62 @@
 ﻿@model Switchboard.Models.Post
 
-@{
-    ViewBag.Title = "Deleting post";
-}
+<div class="modal-content">
+    <div class="modal-header">
+        <h4>Confirmation required</h4>
+    </div>
+    <div class="modal-body">
+        <p>
+            Are you sure you want to delete this post?
+        </p>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
 
-<h2>Deleting post</h2>
+            <dt>
+                @Html.DisplayNameFor(model => model.Content)
+            </dt>
 
-<h3>Are you sure you want to delete this post?</h3>
-<div>
-    <h4>Post details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Content)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DatePosted)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DatePosted)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DatePosted)
+            </dd>
+        </dl>
+    </div>
+    <div class="modal-footer">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.DatePosted)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to " + Model.Channel.Name, "View", "Channel", new { id = Model.ChannelID }, null)
-        </div>
-    }
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        }
+    </div>
 </div>
+
+<script>
+    $(document).ready(function (e) {
+        $('.modal-footer > form').submit(function (e) {
+            e.preventDefault();
+
+            // Send post request to delete selected post
+            // Render server response
+            var $form = $(e.target);
+            $.post($form.attr('action'), $form.serialize(), function (data, status) {
+                $('.modal-dialog').html(data);
+            });
+        });
+    });
+</script>

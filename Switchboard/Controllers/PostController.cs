@@ -125,38 +125,16 @@ namespace Switchboard.Controllers
         //
         // GET: /Post/Delete/5
         [System.Web.Mvc.Authorize]
-        public ActionResult Delete(int? id, bool? saveChangesError = false)
+        public PartialViewResult Delete(int? id)
         {
-            // Throw error on invalid request
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            // If redirected from a failed delete attempt, display error
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ModelState.AddModelError("",
-                    "An error occurred while trying to delete this post. "
-                    + "Please try again.");
-            }
-       
+            // TODO: Validation
+            // Throw error if id is null, post not found, 
+            // or if user not authorised
             // Retrieve selected post
             var post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
 
-            // If user does not have permission to delete this post, return error
-            if (post.User.UserName != User.Identity.Name
-                && !User.IsInRole("Admin")
-                && !User.IsInRole("Moderator"))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
             // Render confirmation screen for selected post
-            return View(post);
+            return PartialView(post);
         }
 
         //
@@ -164,19 +142,32 @@ namespace Switchboard.Controllers
         [HttpPost]
         [System.Web.Mvc.Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        [ActionName("Delete")]
+        public PartialViewResult DeletePost(int id)
         {
             var post = db.Posts.Find(id);
+
+            // Attempt to delete selected post
+            // On success, display message confirming deletion
             try
             {
                 db.Posts.Remove(post);
                 db.SaveChanges();
+
+                // Update all active clients
+                var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
+                context.Clients.All.removePost(id);
+
+                return PartialView("DeleteConfirmed");
             }
+            // On error, redisplay dialog with error message and post data
             catch (DataException)
             {
-                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+                ModelState.AddModelError("",
+                    "An error occurred while trying to delete this post. "
+                    + "Please try again.");
             }
-            return RedirectToAction("View", "Channel", new { id = post.ChannelID });
+            return PartialView(post);
         }
 
         protected override void Dispose(bool disposing)

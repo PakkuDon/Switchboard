@@ -8,9 +8,15 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/channels.js")
     @RenderSection("scripts", required: false)
 </head>
 <body>
+    <div id="modal-container" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        </div>
+    </div>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">

@@ -34,13 +34,10 @@
         // Connect to hub and wait for updates
         $(function () {
             var hub = $.connection.channelHub;
-            // Register client-side callback
-            hub.client.displayNewPost = function (postID) {
-                console.log(postID);
-                $.get("/Post/View", { id : postID }, function(data, status) {
-                    $('.posts').append($(data));
-                });
-            }
+
+            // Register client-side callbacks
+            hub.client.displayNewPost = loadPost;
+            hub.client.removePost = removePost;
 
             // Start connection
             $.connection.hub.start().done(function () { });
