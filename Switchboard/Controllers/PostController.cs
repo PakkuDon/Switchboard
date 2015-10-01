@@ -110,6 +110,7 @@ namespace Switchboard.Controllers
             {
                 try
                 {
+                    post.LastEdited = DateTime.Now;
                     db.SaveChanges();
                     return RedirectToAction("View", "Channel", new { id = post.ChannelID });
                 }

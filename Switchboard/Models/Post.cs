@@ -14,6 +14,7 @@ namespace Switchboard.Models
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime DatePosted { get; set; }
+        public DateTime? LastEdited { get; set; }
 
         // Foreign keys
         public int ChannelID { get; set; }
