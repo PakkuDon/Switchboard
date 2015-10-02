@@ -38,6 +38,7 @@
             // Register client-side callbacks
             hub.client.displayNewPost = loadPost;
             hub.client.removePost = removePost;
+            hub.client.updatePost = updatePost;
 
             // Start connection
             $.connection.hub.start().done(function () { });

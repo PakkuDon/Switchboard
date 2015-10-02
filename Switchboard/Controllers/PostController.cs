@@ -59,28 +59,12 @@ namespace Switchboard.Controllers
         //
         // GET: /Post/Edit/5
         [System.Web.Mvc.Authorize]
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
+            // TODO: Validation
             // Locate associated post
             var post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-
-            // If user does not have permission to edit this post, return error
-            if (post.User.UserName != User.Identity.Name
-                && !User.IsInRole("Admin")
-                && !User.IsInRole("Moderator"))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-            return View(post);
+            return PartialView(post);
         }
 
         //
@@ -89,30 +73,24 @@ namespace Switchboard.Controllers
         [ActionName("Edit")]
         [ValidateAntiForgeryToken]
         [System.Web.Mvc.Authorize]
-        public ActionResult EditPost(int? id)
+        public PartialViewResult EditPost(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
+            // TODO: Validation
             // Locate associated post
-            // If user does not have permission to edit this post, return error
             var post = db.Posts.Find(id);
-            if (post.User.UserName != User.Identity.Name
-                && !User.IsInRole("Admin")
-                && !User.IsInRole("Moderator"))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-
             if (TryUpdateModel(post, new[] { "Content" }))
             {
+                // If edit successful, update LastEdited and save changes
                 try
                 {
                     post.LastEdited = DateTime.Now;
                     db.SaveChanges();
-                    return RedirectToAction("View", "Channel", new { id = post.ChannelID });
+
+                    // Update all active clients
+                    var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
+                    context.Clients.All.updatePost(post.ID);
+
+                    return PartialView("~/Views/Post/View.cshtml", post);
                 }
                 catch (DataException)
                 {
@@ -120,7 +98,7 @@ namespace Switchboard.Controllers
                         "Unable to save changes. Try again.");
                 }
             }
-            return View(post);
+            return PartialView(post);
         }
 
         //
