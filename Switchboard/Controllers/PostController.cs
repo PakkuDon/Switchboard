@@ -31,9 +31,9 @@ namespace Switchboard.Controllers
                     db.Posts.Add(post);
                     db.SaveChanges();
 
-                    // Update all active clients
+                    // Update clients in same channel
                     var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
-                    context.Clients.All.displayNewPost(post.ID);
+                    context.Clients.Group(post.ChannelID.ToString()).displayNewPost(post.ID);
 
                     // Render new post form
                     ModelState.Clear();
@@ -86,9 +86,9 @@ namespace Switchboard.Controllers
                     post.LastEdited = DateTime.Now;
                     db.SaveChanges();
 
-                    // Update all active clients
+                    // Update clients in same channel
                     var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
-                    context.Clients.All.updatePost(post.ID);
+                    context.Clients.Group(post.ChannelID.ToString()).updatePost(post.ID);
 
                     return PartialView("~/Views/Post/View.cshtml", post);
                 }
@@ -133,9 +133,9 @@ namespace Switchboard.Controllers
                 db.Posts.Remove(post);
                 db.SaveChanges();
 
-                // Update all active clients
+                // Update clients in same channel
                 var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
-                context.Clients.All.removePost(id);
+                context.Clients.Group(post.ChannelID.ToString()).removePost(id);
 
                 return PartialView("DeleteConfirmed");
             }

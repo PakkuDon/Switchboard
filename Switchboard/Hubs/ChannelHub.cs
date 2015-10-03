@@ -6,8 +6,12 @@ using Microsoft.AspNet.SignalR;
 
 namespace Switchboard.Hubs
 {
-    // Left empty for now - class used in controllers to broadcast messages to clients
     public class ChannelHub : Hub
     {
+        // Add client to selected channel
+        public void JoinChannel(string channelID)
+        {
+            this.Groups.Add(this.Context.ConnectionId, channelID);
+        }
     }
 }

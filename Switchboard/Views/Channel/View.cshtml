@@ -41,7 +41,10 @@
             hub.client.updatePost = updatePost;
 
             // Start connection
-            $.connection.hub.start().done(function () { });
+            $.connection.hub.start().done(function () {
+                // Subscribe to updates for this channel
+                hub.server.joinChannel(@Model.ID);
+            });
         });
     </script>
 }
