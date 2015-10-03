@@ -110,3 +110,7 @@ textarea {
 .post .username {
     font-weight: bold;
 }
+
+.post.deleted {
+    background-color: rgba(170, 0, 0, 0.1);
+}

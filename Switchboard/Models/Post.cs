@@ -15,6 +15,7 @@ namespace Switchboard.Models
         public string Content { get; set; }
         public DateTime DatePosted { get; set; }
         public DateTime? LastEdited { get; set; }
+        public bool Deleted { get; set; }
 
         // Foreign keys
         public int ChannelID { get; set; }

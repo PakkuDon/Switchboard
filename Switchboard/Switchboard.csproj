@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201510011323110_AddPostLastEdited.Designer.cs">
       <DependentUpon>201510011323110_AddPostLastEdited.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510031343084_AddPostDeleted.cs" />
+    <Compile Include="Migrations\201510031343084_AddPostDeleted.Designer.cs">
+      <DependentUpon>201510031343084_AddPostDeleted.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BoardDbContext.cs" />
@@ -327,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510011323110_AddPostLastEdited.resx">
       <DependentUpon>201510011323110_AddPostLastEdited.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510031343084_AddPostDeleted.resx">
+      <DependentUpon>201510031343084_AddPostDeleted.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -130,12 +130,13 @@ namespace Switchboard.Controllers
             // On success, display message confirming deletion
             try
             {
-                db.Posts.Remove(post);
+                post.Deleted = true;
                 db.SaveChanges();
 
                 // Update clients in same channel
+                // Re-render affected post
                 var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
-                context.Clients.Group(post.ChannelID.ToString()).removePost(id);
+                context.Clients.Group(post.ChannelID.ToString()).updatePost(id);
 
                 return PartialView("DeleteConfirmed");
             }

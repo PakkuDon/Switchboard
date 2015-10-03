@@ -1,6 +1,6 @@
 ﻿@model Switchboard.Models.Post
 
-<div class="post" data-post-id="@Model.ID">
+<div class="post @(Model.Deleted? "deleted" : "")" data-post-id="@Model.ID">
     <hr />
     <div class="post-header">
         Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span>
@@ -8,7 +8,17 @@
                 null, null, Model.ID.ToString(), new { id = Model.ChannelID }, new { name = Model.ID.ToString() })
     </div>
     <div class="post-content">
-        @Html.DisplayFor(model => model.Content)
+        @if (Model.Deleted &&
+                !(User.Identity.Name == Model.User.UserName
+                || User.IsInRole("Moderator")
+                || User.IsInRole("Admin")))
+        {
+            <text>[ this post has been deleted ]</text>
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Content)
+        }
         @if (Model.LastEdited.HasValue)
         {
             <div class="last-edited">
