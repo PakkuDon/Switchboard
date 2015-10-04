@@ -102,15 +102,38 @@ textarea {
     overflow-y: auto;
 }
 
-#channel-view .post-form {
+#channel-view .reply-form {
     flex: 0 1 auto;
 }
 
 /* Individual posts */
-.post .username {
-    font-weight: bold;
+.post {
+    border-top: 1px solid #EEE;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: background-color 3s;
+}
+
+.post.new {
+    background-color: #FFD;
+    transition: background-color 3s;
 }
 
 .post.deleted {
     background-color: rgba(170, 0, 0, 0.1);
+}
+
+.post .actions {
+    text-align: right;
+}
+
+.post .username {
+    font-weight: bold;
+}
+
+.post .last-edited {
+    border: 1px dotted #CCC;
+    background-color: #FAFAFA;
+    margin-top: 5px;
+    padding: 5px 20px;
 }

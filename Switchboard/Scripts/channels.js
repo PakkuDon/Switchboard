@@ -53,7 +53,14 @@
  */
 function loadPost(postID) {
     $.get("/Post/View", { id: postID }, function (data, status) {
-        $('.posts').append($(data));
+        var $post = $(data);
+        $('.posts').append($post);
+
+        // Highlight new post for a few seconds
+        $post.addClass("new");
+        setTimeout(function () {
+            $post.removeClass("new");
+        }, 3000);
     });
 }
 

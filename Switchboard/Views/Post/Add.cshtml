@@ -1,6 +1,6 @@
 ﻿@model Switchboard.Models.Post
 
-<div class="post-form">
+<div class="reply-form">
     @if (Request.IsAuthenticated)
     {
         using (Html.BeginForm("Add", "Post", FormMethod.Post, new { id = "post-form" }))
@@ -40,7 +40,7 @@
                     var $form = $('#post-form');
                     $.post($form.attr('action'), $form.serialize(), function (data, status) {
                         // Display result
-                        $('.post-form').replaceWith(data);
+                        $('.reply-form').replaceWith(data);
                     });
                 });
             });

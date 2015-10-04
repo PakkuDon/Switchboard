@@ -1,7 +1,6 @@
 ﻿@model Switchboard.Models.Post
 
 <div class="post @(Model.Deleted? "deleted" : "")" data-post-id="@Model.ID">
-    <hr />
     <div class="post-header">
         Posted by <span class="username">@Html.DisplayFor(model => model.User.UserName)</span>
         at @Html.ActionLink(Model.DatePosted.ToString(), "View", "Channel",
@@ -9,9 +8,9 @@
     </div>
     <div class="post-content">
         @if (Model.Deleted &&
-                !(User.Identity.Name == Model.User.UserName
-                || User.IsInRole("Moderator")
-                || User.IsInRole("Admin")))
+                    !(User.Identity.Name == Model.User.UserName
+                    || User.IsInRole("Moderator")
+                    || User.IsInRole("Admin")))
         {
             <text>[ this post has been deleted ]</text>
         }
@@ -34,9 +33,12 @@
                 <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit" class="edit">
                     <span class="glyphicon glyphicon-edit"></span>
                 </a>
-                <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete" class="delete">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
+                if (!Model.Deleted)
+                {
+                    <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete" class="delete">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                }
             }
         </div>
     }
