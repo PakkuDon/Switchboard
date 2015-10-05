@@ -8,9 +8,9 @@
     </div>
     <div class="post-content">
         @if (Model.Deleted &&
-                    !(User.Identity.Name == Model.User.UserName
-                    || User.IsInRole("Moderator")
-                    || User.IsInRole("Admin")))
+                        !(User.Identity.Name == Model.User.UserName
+                        || User.IsInRole("Moderator")
+                        || User.IsInRole("Admin")))
         {
             <text>[ this post has been deleted ]</text>
         }
@@ -37,6 +37,12 @@
                 {
                     <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete" class="delete">
                         <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Undelete", "Post", new { id = Model.ID })" title="Undelete" class="undelete">
+                        <span class="glyphicon glyphicon-share-alt"></span>
                     </a>
                 }
             }

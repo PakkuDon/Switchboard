@@ -46,6 +46,20 @@
             $('.post[data-post-id=' + postID + ']').replaceWith(data);
         });
     });
+
+    /* Register event handler for undelete action */
+    $('body').on('click', 'a.undelete', function (e) {
+        e.preventDefault();
+
+        // Retrieve postID associated with selected post
+        var postID = $(e.target).closest('.post').attr('data-post-id');
+
+        // Send request to undo delete action on post
+        $.post('/Post/Undelete', { id: postID }, function (data, status) {
+            // Render updated post
+            $('.post[data-post-id=' + postID + ']').replaceWith(data);
+        });
+    });
 });
 
 /**

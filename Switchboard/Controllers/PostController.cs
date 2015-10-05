@@ -150,6 +150,33 @@ namespace Switchboard.Controllers
             return PartialView(post);
         }
 
+        [HttpPost]
+        public PartialViewResult Undelete(int id)
+        {
+            var post = db.Posts.Find(id);
+
+            // Reset Post.Deleted flag
+            // On success, display confirmation message
+            try
+            {
+                post.Deleted = false;
+                db.SaveChanges();
+
+                // Update clients in same channel
+                // Re-render affected post
+                var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.ChannelHub>();
+                context.Clients.Group(post.ChannelID.ToString()).updatePost(id);
+            }
+            // Display error if action fails
+            catch (DataException)
+            {
+                ModelState.AddModelError("",
+                    "An error occurred while trying to update this post. "
+                    + "Please try again.");
+            }
+            return PartialView("~/Views/Post/View.cshtml", post);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
