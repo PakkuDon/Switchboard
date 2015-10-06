@@ -212,10 +212,15 @@
     <Compile Include="Migrations\201510031343084_AddPostDeleted.Designer.cs">
       <DependentUpon>201510031343084_AddPostDeleted.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510060000460_AddFlagEntity.cs" />
+    <Compile Include="Migrations\201510060000460_AddFlagEntity.Designer.cs">
+      <DependentUpon>201510060000460_AddFlagEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BoardDbContext.cs" />
     <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\Flag.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
@@ -333,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510031343084_AddPostDeleted.resx">
       <DependentUpon>201510031343084_AddPostDeleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510060000460_AddFlagEntity.resx">
+      <DependentUpon>201510060000460_AddFlagEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

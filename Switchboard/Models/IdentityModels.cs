@@ -20,5 +20,6 @@ namespace Switchboard.Models
 
         // Navigation properties
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Flag> Flags { get; set; }
     }
 }

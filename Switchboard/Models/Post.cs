@@ -23,5 +23,6 @@ namespace Switchboard.Models
         // Navigation properties
         public virtual Channel Channel { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public virtual ICollection<Flag> Flags { get; set; }
     }
 }

@@ -22,5 +22,6 @@ namespace Switchboard.Models
         // Entities
         public DbSet<Channel> Channels { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Flag> Flags { get; set; }
     }
 }
