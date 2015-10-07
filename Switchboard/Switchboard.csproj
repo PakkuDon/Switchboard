@@ -181,6 +181,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChannelController.cs" />
+    <Compile Include="Controllers\FlagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -215,6 +216,10 @@
     <Compile Include="Migrations\201510060000460_AddFlagEntity.cs" />
     <Compile Include="Migrations\201510060000460_AddFlagEntity.Designer.cs">
       <DependentUpon>201510060000460_AddFlagEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510061225542_FlagValidationAndResponseField.cs" />
+    <Compile Include="Migrations\201510061225542_FlagValidationAndResponseField.Designer.cs">
+      <DependentUpon>201510061225542_FlagValidationAndResponseField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -311,6 +316,7 @@
     <Content Include="Views\Post\Edit.cshtml" />
     <Content Include="Views\Post\Delete.cshtml" />
     <Content Include="Views\Post\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Flag\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -341,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510060000460_AddFlagEntity.resx">
       <DependentUpon>201510060000460_AddFlagEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510061225542_FlagValidationAndResponseField.resx">
+      <DependentUpon>201510061225542_FlagValidationAndResponseField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

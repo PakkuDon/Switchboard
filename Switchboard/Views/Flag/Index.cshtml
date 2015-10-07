@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Switchboard.Models.Flag>
+
+@{
+    ViewBag.Title = "Flag History";
+}
+
+<h2>Flag History</h2>
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="flag-item">
+            From @item.Post.Channel.Name
+            <blockquote>
+                @item.Post.Content
+                <footer>
+                    @item.Post.DatePosted - @item.Post.User.UserName
+                </footer>
+            </blockquote>
+            <p>
+                @item.Reason - @item.ReportedOn
+            </p>
+            @item.Active ? "pending" : item.Response;
+        </div>
+    }
+</div>
