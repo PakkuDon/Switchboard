@@ -55,7 +55,7 @@ namespace Switchboard.Migrations
             userManager.AddToRole(context.Users.SingleOrDefault(u => u.UserName == "Administrator").Id, roles[0]);
             userManager.AddToRole(context.Users.SingleOrDefault(u => u.UserName == "Moderator").Id, roles[1]);
 
-            // Initialise test data
+            // Add channel data
             var channels = new List<Channel>
             {
                 new Channel { Name = "General", Description = "Casual chat thread." },
@@ -67,6 +67,10 @@ namespace Switchboard.Migrations
                 new Channel { Name = "News", Description = "Current events, either local, national or overseas." }
             };
 
+            channels.ForEach(c => context.Channels.AddOrUpdate(i => i.Name, c));
+            context.SaveChanges();
+
+            // Add post data
             var posts = new List<Post>
             {
                 new Post { DatePosted = DateTime.Now, Content = "Welcome to the General chat thread!",
@@ -94,10 +98,6 @@ namespace Switchboard.Migrations
                     User = context.Users.SingleOrDefault(u => u.UserName == "Moderator")
                 }
             };
-
-            // Add channels and posts
-            channels.ForEach(c => context.Channels.AddOrUpdate(i => i.Name, c));
-            context.SaveChanges();
 
             posts.ForEach(p => context.Posts.AddOrUpdate(i => new { i.Content, i.ChannelID }, p));
             context.SaveChanges();
