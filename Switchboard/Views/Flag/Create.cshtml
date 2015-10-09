@@ -1,0 +1,41 @@
+﻿@model Switchboard.Models.Flag
+
+<div class="modal-content">
+    <div class="modal-header">
+        Flag post for moderation
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.PostID)
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Submit" class="btn btn-default" />
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function (e) {
+        $('.modal-content form').submit(function (e) {
+            e.preventDefault();
+
+            // Submit flag and render server response
+            var $form = $(e.target);
+            $.post($form.attr('action'), $form.serialize(), function (data, status) {
+                $('.modal-dialog').html(data);
+            });
+        });
+    });
+</script>

@@ -28,6 +28,9 @@
     @if (Request.IsAuthenticated)
     {
         <div class="actions">
+            <a href="@Url.Action("Create", "Flag", new { postID = Model.ID })" title="Report post" class="flag">
+                <span class="glyphicon glyphicon-flag"></span>
+            </a>
             @if (User.Identity.Name == Model.User.UserName || User.IsInRole("Moderator") || User.IsInRole("Admin"))
             {
                 <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit" class="edit">

@@ -14,6 +14,7 @@ namespace Switchboard.Models
         public string Reason { get; set; }
         public DateTime ReportedOn { get; set; }
         public string Response { get; set; }
+        [ScaffoldColumn(false)]
         public bool Active { get; set; } = true;
 
         // Foreign keys

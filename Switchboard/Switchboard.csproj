@@ -317,6 +317,8 @@
     <Content Include="Views\Post\Delete.cshtml" />
     <Content Include="Views\Post\DeleteConfirmed.cshtml" />
     <Content Include="Views\Flag\Index.cshtml" />
+    <Content Include="Views\Flag\Create.cshtml" />
+    <Content Include="Views\Flag\CreateConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

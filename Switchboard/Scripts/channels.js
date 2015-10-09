@@ -60,6 +60,21 @@
             $('.post[data-post-id=' + postID + ']').replaceWith(data);
         });
     });
+
+    /* Register event handler for flag links */
+    $('body').on('click', 'a.flag', function (e) {
+        e.preventDefault();
+
+        // Retrieve postID associated with selected post
+        var postID = $(e.target).closest('.post').attr('data-post-id');
+
+        // Load flag form
+        $.get('/Flag/Create', { postID: postID }, function (data, status) {
+            // Render updated post
+            $('.modal-dialog').html(data);
+            $('#modal-container').modal('show');
+        });
+    });
 });
 
 /**
