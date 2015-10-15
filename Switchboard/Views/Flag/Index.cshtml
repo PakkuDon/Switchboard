@@ -4,23 +4,30 @@
     ViewBag.Title = "Flag History";
 }
 
-<h2>Flag History</h2>
-
 <div>
+    <h2>Flag History</h2>
     @foreach (var item in Model)
     {
         <div class="flag-item">
-            From @item.Post.Channel.Name
-            <blockquote>
+            From @Html.ActionLink(item.Post.Channel.Name, "View", "Channel",
+                null, null, item.PostID.ToString(), new { id = item.Post.ChannelID }, null)
+            <div class="quote">
                 @item.Post.Content
                 <footer>
                     @item.Post.DatePosted - @item.Post.User.UserName
                 </footer>
-            </blockquote>
+            </div>
             <p>
                 @item.Reason - @item.ReportedOn
             </p>
-            @item.Active ? "pending" : item.Response;
+            @if (item.Active)
+            {
+                <span class="status active">pending</span>
+            }
+            else
+            {
+                <span class="status reviewed">reviewed - @item.Response</span>
+            }
         </div>
     }
 </div>
