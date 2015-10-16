@@ -1,4 +1,8 @@
-﻿@model Switchboard.Models.Post
+﻿
+@model Post
+@using Switchboard.Models
+@using Switchboard.Models.Permissions
+@using Microsoft.AspNet.Identity
 
 <div class="post @(Model.Deleted? "deleted" : "")" data-post-id="@Model.ID">
     <div class="post-header">
@@ -7,16 +11,13 @@
                 null, null, Model.ID.ToString(), new { id = Model.ChannelID }, new { name = Model.ID.ToString() })
     </div>
     <div class="post-content">
-        @if (Model.Deleted &&
-                        !(User.Identity.Name == Model.User.UserName
-                        || User.IsInRole("Moderator")
-                        || User.IsInRole("Admin")))
+        @if (PostPermissions.CanView(User.Identity?.GetUserId(), Model.ID))
         {
-            <text>[ this post has been deleted ]</text>
+            @Html.DisplayFor(model => model.Content)
         }
         else
         {
-            @Html.DisplayFor(model => model.Content)
+            <text>[ this post has been deleted ]</text>
         }
         @if (Model.LastEdited.HasValue)
         {
