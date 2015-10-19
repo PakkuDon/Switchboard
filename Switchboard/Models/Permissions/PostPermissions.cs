@@ -13,40 +13,124 @@ namespace Switchboard.Models.Permissions
         // TODO: See if initialization of db and userManager can be moved up
         public static bool CanView(string userID, int postID)
         {
-            BoardDbContext db = BoardDbContext.Create();
-            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-
-            var user = userManager.FindById(userID);
-            var post = db.Posts.Find(postID);
-            bool result = true;
-
-            if (post.Deleted)
+            using (var db = BoardDbContext.Create())
             {
-                if (user == null || !(user.UserName != post.User.UserName 
-                    || userManager.IsInRole(userID, "Moderator")
-                    || userManager.IsInRole(userID, "Admin")))
-                {
-                    result = false;
-                }
-            }
+                UserManager<ApplicationUser> userManager 
+                    = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
-            db.Dispose();
-            return result;
+                var user = userManager.FindById(userID);
+                var post = db.Posts.Find(postID);
+
+                // If post deleted, post should only be visible to owner,
+                // moderator or admin
+                if (post.Deleted)
+                {
+                    if (user == null 
+                        || !(user.UserName != post.User.UserName
+                        || userManager.IsInRole(userID, "Moderator")
+                        || userManager.IsInRole(userID, "Admin")))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
 
         public static bool CanEdit(string userID, int postID)
         {
-            return false;
+            using (var db = BoardDbContext.Create())
+            {
+                UserManager<ApplicationUser> userManager 
+                    = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+                var user = userManager.FindById(userID);
+                var post = db.Posts.Find(postID);
+
+                // Restrict access if initiated by unauthenticated user
+                if (user == null)
+                {
+                    return false;
+                }
+
+                // Restrict access to people that don't own the post 
+                // and don't have moderator rights
+                if (!(user.UserName != post.User.UserName
+                        || userManager.IsInRole(userID, "Moderator")
+                        || userManager.IsInRole(userID, "Admin")))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
 
         public static bool CanDelete(string userID, int postID)
         {
-            return false;
+            using (var db = BoardDbContext.Create())
+            {
+                UserManager<ApplicationUser> userManager 
+                    = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+                var user = userManager.FindById(userID);
+                var post = db.Posts.Find(postID);
+
+                // Restrict access if initiated by unauthenticated user
+                if (user == null)
+                {
+                    return false;
+                }
+
+                // If post already marked as deleted, return error
+                if (post.Deleted)
+                {
+                    return false;
+                }
+
+                // Restrict access to people that don't own the post 
+                // and don't have moderator rights
+                if (!(user.UserName != post.User.UserName
+                        || userManager.IsInRole(userID, "Moderator")
+                        || userManager.IsInRole(userID, "Admin")))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
 
         public static bool CanUndelete(string userID, int postID)
         {
-            return false;
+            using (var db = BoardDbContext.Create())
+            {
+                UserManager<ApplicationUser> userManager 
+                    = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+                var user = userManager.FindById(userID);
+                var post = db.Posts.Find(postID);
+
+                // Restrict access if initiated by unauthenticated user
+                if (user == null)
+                {
+                    return false;
+                }
+
+                // If post not marked as deleted, return error
+                if (!post.Deleted)
+                {
+                    return false;
+                }
+
+                // Restrict access to people that don't own the post 
+                // and don't have moderator rights
+                if (!(user.UserName != post.User.UserName
+                        || userManager.IsInRole(userID, "Moderator")
+                        || userManager.IsInRole(userID, "Admin")))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
 
         public static bool CanFlag(string userID, int postID)
