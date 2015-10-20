@@ -28,7 +28,7 @@ namespace Switchboard.Models.Permissions
                 if (post.Deleted)
                 {
                     if (user == null 
-                        || !(user.UserName != post.User.UserName
+                        || !(user.UserName == post.User.UserName
                         || userManager.IsInRole(userID, "Moderator")
                         || userManager.IsInRole(userID, "Admin")))
                     {
@@ -57,13 +57,13 @@ namespace Switchboard.Models.Permissions
 
                 // Restrict access to people that don't own the post 
                 // and don't have moderator rights
-                if (!(user.UserName != post.User.UserName
+                if (user.UserName == post.User.UserName
                         || userManager.IsInRole(userID, "Moderator")
-                        || userManager.IsInRole(userID, "Admin")))
+                        || userManager.IsInRole(userID, "Admin"))
                 {
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -91,13 +91,13 @@ namespace Switchboard.Models.Permissions
 
                 // Restrict access to people that don't own the post 
                 // and don't have moderator rights
-                if (!(user.UserName != post.User.UserName
+                if (user.UserName == post.User.UserName
                         || userManager.IsInRole(userID, "Moderator")
-                        || userManager.IsInRole(userID, "Admin")))
+                        || userManager.IsInRole(userID, "Admin"))
                 {
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -125,13 +125,13 @@ namespace Switchboard.Models.Permissions
 
                 // Restrict access to people that don't own the post 
                 // and don't have moderator rights
-                if (!(user.UserName != post.User.UserName
+                if (user.UserName == post.User.UserName
                         || userManager.IsInRole(userID, "Moderator")
-                        || userManager.IsInRole(userID, "Admin")))
+                        || userManager.IsInRole(userID, "Admin"))
                 {
-                    return false;
+                    return true;
                 }
-                return true;
+                return false;
             }
         }
 
@@ -157,8 +157,9 @@ namespace Switchboard.Models.Permissions
                     return false;
                 }
 
-                // Prevent admins and moderators from flagging posts
-                if (userManager.IsInRole(userID, "Admin") 
+                // Prevent owner, admins and moderators from flagging post
+                if (user.UserName == post.User.UserName
+                    || userManager.IsInRole(userID, "Admin") 
                     || userManager.IsInRole(userID, "Moderator"))
                 {
                     return false;
