@@ -26,30 +26,30 @@
             </div>
         }
     </div>
-    @if (Request.IsAuthenticated)
-    {
-        <div class="actions">
+    <div class="actions">
+        @if (PostPermissions.CanFlag(User.Identity?.GetUserId(), Model.ID))
+        {
             <a href="@Url.Action("Create", "Flag", new { postID = Model.ID })" title="Report post" class="flag">
                 <span class="glyphicon glyphicon-flag"></span>
             </a>
-            @if (User.Identity.Name == Model.User.UserName || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+        }
+        @if (PostPermissions.CanEdit(User.Identity?.GetUserId(), Model.ID))
+        {
+            <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit" class="edit">
+                <span class="glyphicon glyphicon-edit"></span>
+            </a>
+        }
+        @if (PostPermissions.CanDelete(User.Identity?.GetUserId(), Model.ID))
             {
-                <a href="@Url.Action("Edit", "Post", new { id = Model.ID })" title="Edit" class="edit">
-                    <span class="glyphicon glyphicon-edit"></span>
-                </a>
-                if (!Model.Deleted)
-                {
-                    <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete" class="delete">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                }
-                else
-                {
-                    <a href="@Url.Action("Undelete", "Post", new { id = Model.ID })" title="Undelete" class="undelete">
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                    </a>
-                }
-            }
-        </div>
-    }
+            <a href="@Url.Action("Delete", "Post", new { id = Model.ID })" title="Delete" class="delete">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        }
+        @if (PostPermissions.CanUndelete(User.Identity?.GetUserId(), Model.ID))
+        {
+            <a href="@Url.Action("Undelete", "Post", new { id = Model.ID })" title="Undelete" class="undelete">
+                <span class="glyphicon glyphicon-share-alt"></span>
+            </a>
+        }
+    </div>
 </div>

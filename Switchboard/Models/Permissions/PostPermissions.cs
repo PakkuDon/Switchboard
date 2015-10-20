@@ -5,6 +5,8 @@ using System.Web;
 using System.Security.Principal;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data;
+using System.Data.Entity;
 
 namespace Switchboard.Models.Permissions
 {
@@ -135,7 +137,43 @@ namespace Switchboard.Models.Permissions
 
         public static bool CanFlag(string userID, int postID)
         {
-            return false;
+            using (var db = BoardDbContext.Create())
+            {
+                UserManager<ApplicationUser> userManager
+                    = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+                var user = userManager.FindById(userID);
+                var post = db.Posts.Find(postID);
+
+                // Restrict access if initiated by unauthenticated user
+                if (user == null)
+                {
+                    return false;
+                }
+
+                // Reject flags on deleted posts
+                if (post.Deleted)
+                {
+                    return false;
+                }
+
+                // Prevent admins and moderators from flagging posts
+                if (userManager.IsInRole(userID, "Admin") 
+                    || userManager.IsInRole(userID, "Moderator"))
+                {
+                    return false;
+                }
+
+                // Reject access if user has already flagged this post
+                if (db.Flags
+                    .Include(f => f.User)
+                    .Where(f => f.User.Id == userID)
+                    .Any(f => f.PostID == postID))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }
