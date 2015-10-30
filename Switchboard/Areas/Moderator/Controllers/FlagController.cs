@@ -23,6 +23,9 @@ namespace Switchboard.Areas.Moderator.Controllers
             return View(flags.ToList());
         }
 
+        //
+        // POST: Moderator/Flag/Resolve
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

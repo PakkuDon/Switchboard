@@ -9,21 +9,6 @@
 
     @foreach (var item in Model)
     {
-        <div class="flag-item">
-            From @Html.ActionLink(item.Post.Channel.Name, "View", "Channel",
-        null, null, item.PostID.ToString(), new { id = item.Post.ChannelID, area = "" }, null)
-            @{Html.RenderPartial("~/Views/Post/View.cshtml", item.Post);}
-            <p>
-                @item.Reason - @item.ReportedOn by @item.User.UserName
-            </p>
-            @if (item.Active)
-            {
-                <span class="status active">pending</span>
-            }
-            else
-            {
-                <span class="status reviewed">reviewed - @item.Response</span>
-            }
-        </div>
+        Html.RenderPartial("View", item);
     }
 </div>

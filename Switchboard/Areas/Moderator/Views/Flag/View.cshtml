@@ -1,0 +1,21 @@
+﻿@model Switchboard.Models.Flag
+
+<div class="flag-item" data-flag-id="@Model.ID">
+    From @Html.ActionLink(Model.Post.Channel.Name, "View", "Channel",
+        null, null, Model.PostID.ToString(), new { id = Model.Post.ChannelID, area = "" }, null)
+    @{Html.RenderPartial("~/Views/Post/View.cshtml", Model.Post);}
+    <p>
+        @Model.Reason - @Model.ReportedOn by @Model.User.UserName
+    </p>
+    <div>
+        @if (Model.Active)
+        {
+            <span class="status active">pending</span>
+        }
+        else
+        {
+            <span class="status reviewed">reviewed - @Model.Response</span>
+        }
+    </div>
+</div>
+
