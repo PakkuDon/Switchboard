@@ -265,7 +265,9 @@
     <Content Include="Areas\Moderator\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Moderator\Views\Flag\Index.cshtml" />
     <Content Include="Areas\Moderator\Views\Flag\View.cshtml" />
+    <Content Include="Areas\Moderator\Views\Flag\Resolve.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\flags.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

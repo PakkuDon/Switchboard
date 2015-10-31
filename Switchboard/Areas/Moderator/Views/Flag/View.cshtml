@@ -11,6 +11,7 @@
         @if (Model.Active)
         {
             <span class="status active">pending</span>
+            Html.RenderPartial("Resolve", Model);
         }
         else
         {

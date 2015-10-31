@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Switchboard.Models;
 using System.Data.Entity;
+using System.Data;
 
 namespace Switchboard.Areas.Moderator.Controllers
 {
@@ -25,6 +26,25 @@ namespace Switchboard.Areas.Moderator.Controllers
 
         //
         // POST: Moderator/Flag/Resolve
+        public PartialViewResult Resolve(int? id)
+        {
+            var flag = db.Flags.Find(id);
+
+            if (TryUpdateModel(flag, new[] { "Response" }))
+            {
+                try
+                { 
+                    flag.Active = false;
+                    db.SaveChanges();
+                }
+                catch (DataException)
+                {
+                    ModelState.AddModelError("", 
+                        "An error occured while trying to save response. Please try again.");
+                }
+            }
+            return PartialView("View", flag);
+        }
 
         protected override void Dispose(bool disposing)
         {
