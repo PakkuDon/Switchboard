@@ -18,9 +18,25 @@
     flex-flow: column wrap;
 }
 
+.navbar-inverse {
+    background-color: #00282D;
+}
+
+.navbar-inverse .navbar-nav li a {
+    color: #EEEEEE;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #EEEEEE;
+}
+
 .content {
     flex: 1 1 auto;
     position: relative;
+}
+
+.content a {
+    color: #0A5A73;
 }
 
 .content > div {
@@ -35,7 +51,7 @@
 
 footer {
     flex: 0 1 auto;
-    border-top: 1px solid #EEE; 
+    border-top: 1px solid #0A5A73; 
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -54,12 +70,13 @@ textarea {
 
 /* Sidebar and descendant elements */
 .sidebar {
+    color: #FFFFFF;
+    background-color: #0A465A;
     position: absolute;
     top: 51px;
     left: 0;
     bottom: 0;
     width: 250px;
-    background-color: #EEE;
     padding: 5px;
 }
 
@@ -77,8 +94,18 @@ textarea {
     padding: 5px;
 }
 
+.sidebar li a {
+    color: #EEEEEE;
+}
+
+.sidebar li a.active {
+    background-color: #286E87 !important;
+    color: #EEEEEE;
+}
+
 .sidebar li a:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #0A5A73;
+    text-decoration: none;
 }
 
 /* Loading icon */

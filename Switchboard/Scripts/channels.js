@@ -1,4 +1,7 @@
 ﻿$(document).ready(function (e) {
+    // Highlight current channel link
+    $('.sidebar li a[href$=\'' + location.pathname + '\']').addClass('active');
+
     /* Register event handler for delete links */
     $('body').on('click', 'a.delete', function (e) {
         e.preventDefault();
